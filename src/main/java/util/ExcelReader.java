@@ -2,6 +2,7 @@ package util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,19 +11,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
 public class ExcelReader {
 
-    public static void getObjectOfFile() {
+    public static void getObjectOfFile(String filename) {
         try {
-            // TODO: reading date as date
-            String excelFilePath = "listPlus.xlsx";
-            FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
-            System.out.println(excelFilePath);
-            Workbook workbook = getRelevantWorkbook(inputStream, excelFilePath);
+            FileInputStream inputStream = new FileInputStream(new File(filename));
+            System.out.println(filename);
+            Workbook workbook = getRelevantWorkbook(inputStream, filename);
 
             Sheet firstSheet = workbook.getSheetAt(0);
+
 
             for (Row nextRow : firstSheet) {
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
@@ -33,7 +36,13 @@ public class ExcelReader {
                             System.out.print(cell.getStringCellValue());
                             break;
                         case NUMERIC:
-                            System.out.print(cell.getNumericCellValue());
+                            if (DateUtil.isCellDateFormatted(cell)) {
+                                ZonedDateTime germanTime = ZonedDateTime.ofInstant(cell.getDateCellValue().toInstant(),
+                                        ZoneId.of("Europe/Berlin"));
+                                System.out.print(germanTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                            } else {
+                                System.out.print(cell.getNumericCellValue());
+                            }
                             break;
                         case BOOLEAN:
                             System.out.print(cell.getBooleanCellValue());
