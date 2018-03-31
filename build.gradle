@@ -20,7 +20,10 @@ version = '0.1'
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
-    compile 'com.google.guava:guava:23.0'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.17'
+
+
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
