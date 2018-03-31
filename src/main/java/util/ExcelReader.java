@@ -1,4 +1,4 @@
-package main;
+package util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,10 +23,8 @@ public class ExcelReader {
             Workbook workbook = getRelevantWorkbook(inputStream, excelFilePath);
 
             Sheet firstSheet = workbook.getSheetAt(0);
-            Iterator<Row> iterator = firstSheet.iterator();
 
-            while (iterator.hasNext()) {
-                Row nextRow = iterator.next();
+            for (Row nextRow : firstSheet) {
                 Iterator<Cell> cellIterator = nextRow.cellIterator();
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
