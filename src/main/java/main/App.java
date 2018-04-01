@@ -1,5 +1,7 @@
 package main;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import types.ExcelSheet;
 import util.ExcelUtils;
 
@@ -10,14 +12,16 @@ import java.util.Objects;
  */
 public class App {
 
+    private static final Logger log = LoggerFactory.getLogger(App.class);
+
     public static void main(String[] args) {
         ExcelSheet excelPlus = ExcelUtils.getInformationOfExcelFile("listPlus.xlsx");
         ExcelSheet excelMinus = ExcelUtils.getInformationOfExcelFile("listMinus.xlsx");
         if (!Objects.isNull(excelPlus)) {
-            System.out.println(excelPlus.toExcelSheet());
+            log.error("Excel-Table is: {} {}", System.lineSeparator(), excelPlus.toExcelSheet());
         }
         if (!Objects.isNull(excelMinus)) {
-            System.out.println(excelMinus.toExcelSheet());
+            log.error("Excel-Table is:{}{}", System.lineSeparator(), excelMinus.toExcelSheet());
         }
 
 
