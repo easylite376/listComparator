@@ -34,7 +34,7 @@ public class ExcelSheet {
     public String toString() {
         String excelSheetString = "";
         for (ExcelRow excelRow : rows) {
-            excelSheetString = excelSheetString.concat(excelRow.toExcelRow() + System.lineSeparator());
+            excelSheetString = excelSheetString.concat(excelRow + System.lineSeparator());
         }
         return excelSheetString;
     }

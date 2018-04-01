@@ -18,10 +18,10 @@ public class App {
         ExcelSheet excelPlus = ExcelUtils.getInformationOfExcelFile("listPlus.xlsx");
         ExcelSheet excelMinus = ExcelUtils.getInformationOfExcelFile("listMinus.xlsx");
         if (!Objects.isNull(excelPlus)) {
-            LOG.debug("Excel-Table is: {} {}", System.lineSeparator(), excelPlus);
+            LOG.error("Excel-Table is:{}{}", System.lineSeparator(), excelPlus);
         }
         if (!Objects.isNull(excelMinus)) {
-            LOG.debug("Excel-Table is:{}{}", System.lineSeparator(), excelMinus);
+            LOG.error("Excel-Table is:{}{}", System.lineSeparator(), excelMinus);
         }
 
 
