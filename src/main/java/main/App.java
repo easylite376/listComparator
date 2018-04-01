@@ -12,16 +12,16 @@ import java.util.Objects;
  */
 public class App {
 
-    private static final Logger log = LoggerFactory.getLogger(App.class);
+    private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
         ExcelSheet excelPlus = ExcelUtils.getInformationOfExcelFile("listPlus.xlsx");
         ExcelSheet excelMinus = ExcelUtils.getInformationOfExcelFile("listMinus.xlsx");
         if (!Objects.isNull(excelPlus)) {
-            log.error("Excel-Table is: {} {}", System.lineSeparator(), excelPlus.toExcelSheet());
+            LOG.debug("Excel-Table is: {} {}", System.lineSeparator(), excelPlus);
         }
         if (!Objects.isNull(excelMinus)) {
-            log.error("Excel-Table is:{}{}", System.lineSeparator(), excelMinus.toExcelSheet());
+            LOG.debug("Excel-Table is:{}{}", System.lineSeparator(), excelMinus);
         }
 
 

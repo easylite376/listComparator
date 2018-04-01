@@ -37,13 +37,6 @@ public class ExcelRow {
 
     @Override
     public String toString() {
-        return "ExcelRow{" +
-                "date=" + date +
-                ", amount=" + amount +
-                '}';
-    }
-
-    public String toExcelRow() {
         return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\t" + amount;
     }
 }

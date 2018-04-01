@@ -32,12 +32,6 @@ public class ExcelSheet {
 
     @Override
     public String toString() {
-        return "ExcelSheet{" +
-                "rows=" + rows +
-                '}';
-    }
-
-    public String toExcelSheet() {
         String excelSheetString = "";
         for (ExcelRow excelRow : rows) {
             excelSheetString = excelSheetString.concat(excelRow.toExcelRow() + System.lineSeparator());
