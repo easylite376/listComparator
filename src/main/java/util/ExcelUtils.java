@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Martin Staehr
+ */
 public class ExcelUtils {
 
     private ExcelUtils() {
@@ -29,12 +32,10 @@ public class ExcelUtils {
     public static ExcelSheet getInformationOfExcelFile(String filename) {
         try {
             FileInputStream inputStream = new FileInputStream(new File(filename));
-            System.out.println(filename);
             Workbook workbook = getRelevantWorkbook(inputStream, filename);
             List<String> columns = Arrays.asList("Datum", "Betrag");
             Sheet firstSheet = workbook.getSheetAt(0);
             ExcelSheet excelSheet = getDateAndMoneyOfSheet(firstSheet, columns);
-            System.out.println(excelSheet.toExcelSheet());
             workbook.close();
             inputStream.close();
             return excelSheet;

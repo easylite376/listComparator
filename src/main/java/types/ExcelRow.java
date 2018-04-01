@@ -3,6 +3,9 @@ package types;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * @author Martin Staehr
+ */
 public class ExcelRow {
 
     private ZonedDateTime date;

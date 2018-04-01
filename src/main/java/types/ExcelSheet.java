@@ -3,6 +3,9 @@ package types;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Martin Staehr
+ */
 public class ExcelSheet {
 
     private List<ExcelRow> rows;
