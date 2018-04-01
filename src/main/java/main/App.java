@@ -1,12 +1,13 @@
 package main;
 
-import util.ExcelReader;
+import types.ExcelSheet;
+import util.ExcelUtils;
 
 public class App {
 
     public static void main(String[] args) {
-        ExcelReader.getObjectOfFile("listPlus.xlsx");
-        ExcelReader.getObjectOfFile("listMinus.xlsx");
+        ExcelSheet excelSheet = ExcelUtils.getInformationOfExcelFile("listPlus.xlsx");
+        ExcelUtils.getInformationOfExcelFile("listMinus.xlsx");
     }
 
 
