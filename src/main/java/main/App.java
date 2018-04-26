@@ -23,9 +23,5 @@ public class App {
         if (!Objects.isNull(excelMinus)) {
             LOG.error("Excel-Table is:{}{}", System.lineSeparator(), excelMinus);
         }
-
-
     }
-
-
 }
