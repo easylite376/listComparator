@@ -1,4 +1,4 @@
-package types;
+package excel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class ExcelSheet {
 
     private List<ExcelRow> rows;
 
-    public ExcelSheet() {
+    ExcelSheet() {
         rows = new ArrayList<>();
     }
 
@@ -26,7 +26,7 @@ public class ExcelSheet {
         return rows.get(index);
     }
 
-    public void addRow(ExcelRow excelRow) {
+    void addRow(ExcelRow excelRow) {
         rows.add(excelRow);
     }
 

@@ -1,5 +1,6 @@
-package types;
+package excel;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,12 +10,12 @@ import java.time.format.DateTimeFormatter;
 public class ExcelRow {
 
     private ZonedDateTime date;
-    private double amount;
+    private BigDecimal amount;
 
-    public ExcelRow() {
+    ExcelRow() {
     }
 
-    public ExcelRow(ZonedDateTime date, double amount) {
+    public ExcelRow(ZonedDateTime date, BigDecimal amount) {
         this.date = date;
         this.amount = amount;
     }
@@ -23,15 +24,15 @@ public class ExcelRow {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
