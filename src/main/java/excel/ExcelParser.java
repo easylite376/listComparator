@@ -1,12 +1,7 @@
 package excel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -21,15 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static excel.ExcelRow.*;
+
 /**
  * @author Martin Staehr
  */
 public class ExcelParser {
 
+    public final static List<String> COLUMNS = Arrays.asList(ID_FIELD, DATE_FIELD, AMOUNT_FIELD);
+
     public ExcelParser() {
     }
 
-    private static ExcelSheet getDateAndMoneyOfSheet(Sheet sheet, List<String> columns) {
+
+    private static ExcelSheet getRelevantInformationOfSheet(Sheet sheet, List<String> columns) {
         HashMap<String, Integer> tableHeader = getHeaderPositionMap(sheet);
         ExcelSheet excelSheet = new ExcelSheet();
         boolean isFirstLine = true;
@@ -41,36 +41,33 @@ public class ExcelParser {
             ExcelRow excelRow = new ExcelRow();
             columns.forEach(column -> {
                 Cell cell = row.getCell(tableHeader.get(column));
-                if (cell.getCellTypeEnum() == CellType.NUMERIC) {
-                    ZonedDateTime germanTime = getDateOrNull(cell);
-                    if (Objects.isNull(germanTime)) {
-                        double amount = cell.getNumericCellValue();
-                        String stringAmount = String.valueOf(amount);
-                        excelRow.setAmount(new BigDecimal(stringAmount));
-                    } else {
-                        excelRow.setDate(germanTime);
-                    }
+                switch (cell.getCellTypeEnum()) {
+                    case NUMERIC:
+                        if (column.equals(ID_FIELD)) {
+                            int id = (int) cell.getNumericCellValue();
+                            excelRow.setId(String.valueOf(id));
+                            return;
+                        }
+                        ZonedDateTime germanTime = getDateOrNull(cell);
+                        if (Objects.isNull(germanTime)) {
+                            double amount = cell.getNumericCellValue();
+                            String stringAmount = String.valueOf(amount);
+                            excelRow.setAmount(new BigDecimal(stringAmount));
+                        } else {
+                            excelRow.setDate(germanTime);
+                        }
+                        break;
+                    case STRING:
+                        if (column.equals(ID_FIELD)) {
+                            String id = cell.getStringCellValue();
+                            excelRow.setId(id);
+                        }
+                        break;
                 }
             });
             excelSheet.addRow(excelRow);
         }
         return excelSheet;
-    }
-
-    public ExcelSheet getInformationOfExcelFile(String filename) {
-        try {
-            FileInputStream inputStream = new FileInputStream(new File(filename));
-            Workbook workbook = getRelevantWorkbook(inputStream, filename);
-            List<String> columns = Arrays.asList("Datum", "Betrag");
-            Sheet firstSheet = workbook.getSheetAt(0);
-            ExcelSheet excelSheet = getDateAndMoneyOfSheet(firstSheet, columns);
-            workbook.close();
-            inputStream.close();
-            return excelSheet;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     private static ZonedDateTime getDateOrNull(Cell cell) {
@@ -89,6 +86,21 @@ public class ExcelParser {
             tableHeader.put(cell.getStringCellValue(), counter++);
         }
         return tableHeader;
+    }
+
+    public ExcelSheet getInformationOfExcelFile(String filename) {
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(filename));
+            Workbook workbook = getRelevantWorkbook(inputStream, filename);
+            Sheet firstSheet = workbook.getSheetAt(0);
+            ExcelSheet excelSheet = getRelevantInformationOfSheet(firstSheet, COLUMNS);
+            workbook.close();
+            inputStream.close();
+            return excelSheet;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private Workbook getRelevantWorkbook(FileInputStream inputStream, String excelFilePath) throws IOException {
